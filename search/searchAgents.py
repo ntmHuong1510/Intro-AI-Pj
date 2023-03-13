@@ -288,6 +288,7 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
+        self.startState = (self.startingPosition, [])
 
     def getStartState(self):
         """
@@ -295,14 +296,22 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        corners_visited = []
-        return self.startingPosition, corners_visited
+        return self.startState
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        return len(state[1]) == 4
+        curNode, visitedNodes = state
+        if curNode in self.corners:
+            if curNode not in visitedNodes:
+                visitedNodes.append(curNode)
+            if(len(visitedNodes) < 4):
+                print( "Missing %d corner(s)\n\n" % (4-len(visitedNodes)) )
+            else:
+                print("All corners found\n\n")
+            return len(visitedNodes) == 4
+        return False
 
     def getSuccessors(self, state):
         """
