@@ -87,17 +87,75 @@ def depthFirstSearch(problem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
+    print("Start: ", problem.getStartState())
+    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
+    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
+
+    node = problem.getStartState()
+    if (problem.isGoalState(node)):
+        return[]
+
+    stack_dfs = util.Stack()
+    visited = []
+    stack_dfs.push((node, []))
+
+    while not stack_dfs.isEmpty():
+        current, actions = stack_dfs.pop()
+        # print(actions)
+        if current not in visited:
+            visited.append(current)
+            if problem.isGoalState(current):
+                # print(len(actions))
+                return actions
+            for next, action, cost in problem.getSuccessors(current):
+                nextActs = actions + [action]
+                stack_dfs.push((next, nextActs))
+
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    node = problem.getStartState()
+    if (problem.isGoalState(node)):
+        return[]
+
+    queue_bfs = util.Queue()
+    visited = []
+    queue_bfs.push((node, []))
+
+    while not queue_bfs.isEmpty():
+        current, actions = queue_bfs.pop()
+        if current not in visited:
+            visited.append(current)
+            if (problem.isGoalState(current)):
+                return actions
+            for next, action, cost in problem.getSuccessors(current):
+                nextAction = actions + [action]
+                queue_bfs.push((next, nextAction))
+
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    node = problem.getStartState()
+    if (problem.isGoalState(node)):
+        return[]
+    
+    priorityQueue = util.PriorityQueue()
+    visited = []
+    priorityQueue.push((node, [], 0), 0)
+    
+    while not priorityQueue.isEmpty():
+        current, actions, oldCost = priorityQueue.pop()
+        if current not in visited:
+            visited.append(current)
+            if (problem.isGoalState(current)):
+                return actions
+            for next, action, cost in problem.getSuccessors(current):
+                nextAction = actions + [action]
+                priority = oldCost + cost
+                priorityQueue.push((next, nextAction, priority), priority)
 
 def nullHeuristic(state, problem=None):
     """
@@ -109,7 +167,25 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    node = problem.getStartState()
+    if (problem.isGoalState(node)):
+        return[]
+    
+    priorityQueue = util.PriorityQueue()
+    visited = []
+    priorityQueue.push((node, [], 0), 0)
+    
+    while not priorityQueue.isEmpty():
+        current, actions, oldCost = priorityQueue.pop()
+        if current not in visited:
+            visited.append(current)
+            if (problem.isGoalState(current)):
+                return actions
+            for next, action, cost in problem.getSuccessors(current):
+                nextAction = actions + [action]
+                newCost = oldCost + cost
+                heuristicCost = newCost + heuristic(next, problem)
+                priorityQueue.push((next, nextAction, newCost), heuristicCost)
 
 
 # Abbreviations

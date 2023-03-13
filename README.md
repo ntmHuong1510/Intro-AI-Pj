@@ -1,4 +1,3 @@
-"# Intro-AI-Pj"
 This is my AI lab 1 report and source code. In order to run my code, you just open folder search and compile file pacman.py
 
     + Cmd to check the behavior of RandomAgent:
@@ -11,3 +10,20 @@ This is my AI lab 1 report and source code. In order to run my code, you just op
     + cmd to check the behavior of ReflexAgent:
         python pacman.py --layout myLayout --pacman BetterRandomAgent
         python pacman.py --layout openSearch --pacman BetterRandomAgent
+
+Cmd for lab 2: Uninformed Search in Pac-Man
+
+    + To test implemented Breadth-first search (BFS) algorithms with 3 different sizes' of maze.
+        python pacman.py -l tinyMaze -p SearchAgent -a fn=breadthFirstSearch
+        python pacman.py -l mediumMaze -p SearchAgent -a fn=breadthFirstSearch
+        python pacman.py -l bigMaze -p SearchAgent -a fn=breadthFirstSearch
+
+    + To test implemented Depth-first search (DFS) algorithms with 3 different sizes' of maze.
+        python pacman.py -l tinyMaze -p SearchAgent -a fn=fn=depthFirstSearch
+        python pacman.py -l mediumMaze -p SearchAgent -a fn=fn=depthFirstSearch
+        python pacman.py -l bigMaze -p SearchAgent -a fn=depthFirstSearch
+
+    + To test implemented Uniform Cost Search algorithms with 3 different sizes' of maze.
+        python pacman.py -l tinyMaze -p SearchAgent -a fn=uniformCostSearch
+        python pacman.py -l mediumMaze -p SearchAgent -a fn=uniformCostSearch
+        python pacman.py -l bigMaze -p SearchAgent -a fn=uniformCostSearch

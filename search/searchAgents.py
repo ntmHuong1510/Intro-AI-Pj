@@ -248,7 +248,7 @@ class StayWestSearchAgent(SearchAgent):
     def __init__(self):
         self.searchFunction = search.uniformCostSearch
         costFn = lambda pos: 2 ** pos[0]
-        self.searchType = lambda state: PositionSearchProblem(state, costFn)
+        self.searchType = lambda state: PositionSearchProblem(sta, costFn)
 
 def manhattanHeuristic(position, problem, info={}):
     "The Manhattan distance heuristic for a PositionSearchProblem"
@@ -295,37 +295,46 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
-
+        corners_visited = []
+        return self.startingPosition, corners_visited
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return len(state[1]) == 4
 
     def getSuccessors(self, state):
         """
         Returns successor states, the actions they require, and a cost of 1.
-
          As noted in search.py:
             For a given state, this should return a list of triples, (successor,
             action, stepCost), where 'successor' is a successor to the current
             state, 'action' is the action required to get there, and 'stepCost'
             is the incremental cost of expanding to that successor
         """
-
         successors = []
+        current_positions = state[0]
+        cur_visited_corners = state[1]
+
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
             # Add a successor state to the successor list if the action is legal
             # Here's a code snippet for figuring out whether a new position hits a wall:
-            #   x,y = currentPosition
-            #   dx, dy = Actions.directionToVector(action)
-            #   nextx, nexty = int(x + dx), int(y + dy)
-            #   hitsWall = self.walls[nextx][nexty]
+
+            # hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
-
+            x,y = current_positions
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
+            next_state = (nextx, nexty)
+            cost = self.costFn(next_state)
+            if not self.walls[nextx][nexty]:
+                if next_state in self.corners and next_state not in cur_visited_corners:
+                    new_visited_corners = [next_state] + cur_visited_corners
+                    successors.append((next_state, new_visited_corners), action, cost)
+                else:
+                    successors.append((next_state, cur_visited_corners), action, cost)
         self._expanded += 1 # DO NOT CHANGE
         return successors
 
